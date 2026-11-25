@@ -1,0 +1,9 @@
+{
+  "component": "warning-text",
+  "package": "govuk-frontend",
+  "version": "6.6.0",
+  "hashes": {
+    "markup": "7326fa8a2baf5b71",
+    "style": "07fa807547941117"
+  }
+}

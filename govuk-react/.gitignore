@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.cache/
+.data/
+.env
+*.tgz
+tools/bob-pipeline/.data/
+.bob-pipeline/

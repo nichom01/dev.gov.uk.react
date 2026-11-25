@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  library:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run typecheck
+      - name: Tests (behaviour + conformance against vendored govuk-frontend fixtures)
+        run: npm test
+      - run: npm run build
+      - name: Vendored upstream files are untouched
+        # upstream/components/* must be exactly what `npm run upstream:sync`
+        # produces for the version in each lock.json.
+        run: node scripts/upstream/verify.mjs
+
+  pipeline-config:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tools/bob-pipeline
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tools/bob-pipeline/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm run validate

@@ -1,0 +1,17 @@
+{
+  "$comment": "Settings for scripts/upstream/check.mjs (the upstream watcher). See docs/upstream-watcher.md.",
+  "labels": {
+    "base": "upstream",
+    "start": "bob:start"
+  },
+  "autoStart": true,
+  "milestonePerRelease": true,
+  "componentIssuesBlockedByBump": true,
+  "supersede": "close",
+  "newComponents": {
+    "enabled": true,
+    "maxOpen": 2,
+    "ignore": []
+  },
+  "assignees": []
+}

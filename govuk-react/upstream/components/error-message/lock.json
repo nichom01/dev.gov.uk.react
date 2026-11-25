@@ -1,0 +1,9 @@
+{
+  "component": "error-message",
+  "package": "govuk-frontend",
+  "version": "6.6.0",
+  "hashes": {
+    "markup": "8e608091aed73832",
+    "style": "517ede63f2112e59"
+  }
+}

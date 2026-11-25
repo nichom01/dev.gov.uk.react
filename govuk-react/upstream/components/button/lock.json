@@ -1,0 +1,10 @@
+{
+  "component": "button",
+  "package": "govuk-frontend",
+  "version": "6.6.0",
+  "hashes": {
+    "markup": "5485e6bf7866744d",
+    "behaviour": "8ab3cef543271c68",
+    "style": "c1e0f9ca13782a00"
+  }
+}

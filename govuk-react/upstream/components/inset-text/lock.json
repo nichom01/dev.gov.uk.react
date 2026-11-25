@@ -1,0 +1,9 @@
+{
+  "component": "inset-text",
+  "package": "govuk-frontend",
+  "version": "6.6.0",
+  "hashes": {
+    "markup": "9591926e4bb01ebb",
+    "style": "e95c474191f3c880"
+  }
+}

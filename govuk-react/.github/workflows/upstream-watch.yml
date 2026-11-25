@@ -1,0 +1,52 @@
+# Checks govuk-frontend for new releases and opens issues for the pipeline.
+# See docs/upstream-watcher.md. Safe to re-run: nothing is filed twice.
+name: Upstream watch
+
+on:
+  schedule:
+    - cron: "17 6 * * 1-5" # 06:17 UTC on weekdays
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "govuk-frontend version to check against (default: latest)"
+        required: false
+      dry_run:
+        description: "Only print what would be filed"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: upstream-watch
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Check upstream and open issues
+        env:
+          # GITHUB_TOKEN can open issues and labels. Recording "blocked by"
+          # links needs issues: write too, which is granted above. If your org
+          # restricts the default token, use a fine-grained PAT secret instead.
+          GH_TOKEN: ${{ secrets.UPSTREAM_WATCH_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          args=()
+          if [ -n "${{ inputs.version }}" ]; then args+=(--version "${{ inputs.version }}"); fi
+          if [ "${{ inputs.dry_run }}" = "true" ]; then args+=(--dry-run); fi
+          node scripts/upstream/check.mjs "${args[@]}"
+      - name: Upload dry-run issue bodies
+        if: ${{ inputs.dry_run }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: upstream-dry-run
+          path: .cache/upstream/dry-run/

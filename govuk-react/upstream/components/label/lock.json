@@ -1,0 +1,9 @@
+{
+  "component": "label",
+  "package": "govuk-frontend",
+  "version": "6.6.0",
+  "hashes": {
+    "markup": "40be6c773601aaf7",
+    "style": "7abf616d158b78fc"
+  }
+}
